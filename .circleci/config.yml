@@ -1,38 +1,18 @@
 version: 2.1
+
 orbs:
-  python: circleci/python@2.0.3
-  heroku: circleci/heroku@1.2.6
+  newman: postman/newman@0.0.2
 
 jobs:
-  build_and_test: # this can be any name you choose
-    executor: python/default
+  newman-collection-run:
+    executor: newman/postman-newman-docker
     steps:
       - checkout
-      - python/install-packages:
-          pkg-manager: pip
-      - run:
-          name: Run tests
-          command: python -m main
-      - persist_to_workspace:
-          root: ~/pythonProject1
-          paths:
-            - .
 
-  deploy: # this can be any name you choose
-    executor: python/default
-    steps:
-      - attach_workspace:
-          at: ~/pythonProject1
-      - heroku/deploy-via-git:
-          force: true # force push when pushing to the heroku remote, see: https://devcenter.heroku.com/articles/git
+      - newman/newman-run:
+        collection: https://api.getpostman.com/collections/789883-28b680e3-eb56-4135-8f4c-de01a6e494e9?apikey=$POSTMAN_API_KEY
 
 workflows:
-  test_my_app:
+  example-workflow:
     jobs:
-      - build_and_test
-      - deploy:
-          requires:
-            - build_and_test # only deploy if the build_and_test job has completed
-          filters:
-            branches:
-              only: main # only deploy when on main
+      - newman-collection-run
