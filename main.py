@@ -1,16 +1,24 @@
-# 샘플 Python 스크립트입니다.
+from flask import Flask, jsonify, request
+import json
 
-# ⌃R을(를) 눌러 실행하거나 내 코드로 바꿉니다.
-# 클래스, 파일, 도구 창, 액션 및 설정을 어디서나 검색하려면 ⇧ 두 번을(를) 누릅니다.
+server = Flask(__name__)
 
 
-def print_hi(name):
-    # 스크립트를 디버그하려면 하단 코드 줄의 중단점을 사용합니다.
-    print(f'Hi, {name}')  # 중단점을 전환하려면 ⌘F8을(를) 누릅니다.
+@server.route('/api1', methods=['POST'])
+def api1_request():
+    print(request.get_json())
+    d = {"result": {"status": "requested"}, "request_data": request.get_json()}
+    json_data = json.dumps(d)
+    return json_data, {"Content-Type": "application/json"}
+
+@server.route('/api2', methods=['POST'])
+def api2_request():
+    print(request.get_json())
+    d = {"result": {"status": "requested"}, "request_data": {"checkData1": "one"}}
+    json_data = json.dumps(d)
+    return jsonify(json_data), {"Content-Type": "application/json"}
 
 
 # 스크립트를 실행하려면 여백의 녹색 버튼을 누릅니다.
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# https://www.jetbrains.com/help/pycharm/에서 PyCharm 도움말 참조
+    server.run(debug=True, host='0.0.0.0', port=25252)
