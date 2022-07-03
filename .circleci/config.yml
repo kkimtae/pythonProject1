@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   newman: postman/newman@1.0.0
+  slack: circleci/slack@4.10.1
 jobs:
   newman-collection-run:
     executor: newman/postman-newman-docker
@@ -8,7 +9,14 @@ jobs:
       - checkout
       - newman/newman-run:
           collection: ./yoon.postman_collection.json
+  example-job:
+    docker:
+      # replace with your preferred image
+      - image: cimg/base:stable
+    steps:
+      - slack/notify
 workflows:
   example-workflow:
     jobs:
       - newman-collection-run
+      - example-job
