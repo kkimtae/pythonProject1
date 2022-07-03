@@ -1,0 +1,703 @@
+{
+	"info": {
+		"_postman_id": "72e5f43d-6082-4789-9d0f-690f6e008421",
+		"name": "yoon",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3109709"
+	},
+	"item": [
+		{
+			"name": "JP",
+			"item": [
+				{
+					"name": "OA Submit Request",
+					"item": [
+						{
+							"name": "Join Instream",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"console.log(\"api 1 test log\");",
+											"",
+											"// pm.test(\"id instream?\", function () {",
+											"//     var jsonData = pm.response.json();",
+											"//     pm.expect(jsonData.id).equals(\"off\" && \"ok\")",
+											"// });",
+											"",
+											"pm.test(\"test\", function () {",
+											"    pm.expect(\"granted\").oneOf([\"on\", \"off\"])",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// console.log(\"api 1 pre-request log\");",
+											"",
+											"// const status_check = {",
+											"//     url: 'http://127.0.0.1:25252/test',",
+											"//     method: 'GET',",
+											"// };",
+											"",
+											"// const status_change = {",
+											"//     url: 'http://127.0.0.1:25252/test',",
+											"//     method: 'POST',",
+											"//     header: {",
+											"//         'Content-Type': 'application/json',",
+											"//         'Authorization': 'Bearer ' + pm.environment.get(\"access_token\")",
+											"//     },",
+											"//     body: {",
+											"//         mode: 'raw',",
+											"//         raw: JSON.stringify( {",
+											"//             \"status\": \"on\",",
+											"//             \"key2\": \"key2\",",
+											"//             \"key3\": \"key3\"",
+											"//         } )",
+											"//     }",
+											"// }",
+											"",
+											"// pm.sendRequest(status_check, function (err, res) {",
+											"//         if (err) {",
+											"//             console.log(err);",
+											"//         } else {",
+											"//             console.log(res);",
+											"//             if(res.code == 200) {",
+											"//                 console.log(\"success\");",
+											"//                 // console.log(\"id=\" + res.json().id);",
+											"//                 // status 가 원하는게 아니면",
+											"//                 if (res.json().status == \"processing\") {",
+											"//                     // 원하는값",
+											"//                 } else {",
+											"//                     // 원하는 상태값이 아니면",
+											"//                     pm.sendRequest(status_change, function (err, res) {",
+											"//                         if (err) {",
+											"//                             console.log(err);",
+											"//                         } else {",
+											"//                             // status 상태 ",
+											"//                         }",
+											"//                     });",
+											"//                 }",
+											"//             } else {",
+											"//                 console.log(\"fail\");",
+											"//             }",
+											"",
+											"//             pm.environment.set(\"responseId\", res.json().id);",
+											"//         }",
+											"// });"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"{{id}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "127.0.0.1:25252/test",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "25252",
+									"path": [
+										"test"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Join Video",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"console.log(\"api 1 test log\");",
+											"",
+											"// pm.test 의 결과를 확인할 boolean 형 변수 선언 - 기본을 false 로 선언하며",
+											"// pm.test의 가장 마지막에 true 처리를 해서 pm.test 내의 검증 메소드가 모두 성공하면 true 치환처리되도록 한다.",
+											"var test1Result = false;",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    // 위 검증문이 성공하면 아래 testResult = true; 가 수행되어 ",
+											"    // testResult가 true 로 변경된다. 이를 통해 해당 pm.test 의 수행결과가 성공임을 알 수 있음.",
+											"    // 만약 위 검증문이 실패하면 아래 testResult = true; 가 수행되지 않아 testResult가 false 이므로",
+											"    // pm.test 의 수행결과가 false 임을 알 수 있다.",
+											"    test1Result = true;",
+											"});",
+											"",
+											"var test2Result = false;",
+											"pm.test(\"response json validation\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    pm.response.to.have.status(200);",
+											"    pm.response.to.have.status(200);",
+											"    pm.response.to.have.status(200);",
+											"    // 위 검증문 중 1개만 실패해도 pm.test 는 실패한것이고, 아래 testResult = true; 도 수행되지 않으므로",
+											"    // test2Result 가 false 이므로 본 pm.test 의 결과가 fail 임을 유추할 수 있다.",
+											"    test2Result = true;",
+											"});",
+											"",
+											"const status = pm.response.status;",
+											"",
+											"console.log(status)",
+											"",
+											"if(status == \"OK\") {",
+											"    pm.test(\"Your test name\", function () {",
+											"        var jsonData = pm.response.json();",
+											"        pm.expect(jsonData.id).to.include(\"id\");",
+											"    });",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.log(\"api 1 pre-request log\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"realId\" : \"{{makeId}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "127.0.0.1:25252/test/{{makeId}}",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "25252",
+									"path": [
+										"test",
+										"{{makeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Join All",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.log(\"request pre-request2 log\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"console.log(\"request test2 log\");",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"const status = pm.response.status;",
+											"",
+											"console.log(status)",
+											"",
+											"if(status == \"OK\") {",
+											"    pm.test(\"Your test name\", function () {",
+											"        var jsonData = pm.response.json();",
+											"        pm.expect(jsonData.id).to.include(\"id\");",
+											"    });",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "id",
+											"value": "{{id}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8088/test",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"test"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"console.log(\"folder OA pre-request log\");"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"console.log(\"folder OA test log\");"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Verify Data",
+					"item": [
+						{
+							"name": "api1",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var test_rail_data = {\"a\" : [{\"1\":\"2\"}, {\"3\":\"4\"}, {\"5\":\"6\"}]};",
+											"",
+											"// array 안의 갯수 ( \"a\" 형식 안의 어레이 [] 안에 있는 오브젝트 3개)",
+											"console.log(test_rail_data.a.length);",
+											"// json 데이터의 갯수 (\"a\" 한개)",
+											"console.log(Object.keys(test_rail_data).length);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// let requestData = JSON.parse(pm.request.body.raw);",
+											"",
+											"",
+											"// pm.environment.unset(\"checkData1\");",
+											"// pm.environment.set(\"checkData1\", requestData.request);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"request\": \"one\" \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:25252/api1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "25252",
+									"path": [
+										"api1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "api2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"function isSame(obj1, obj2) {",
+											"    var checker = true;",
+											"",
+											"    if(obj1 === null) {",
+											"        // null 타입인 경우",
+											"        if(obj2 === null || obj2 instanceof null) {",
+											"            checker = true;",
+											"        } else {",
+											"            checker = false;",
+											"        }",
+											"    } else if(typeof obj1 === 'string' || obj1 instanceof String) {",
+											"        // string 타입인 경우 upper 비교",
+											"        if(obj1.toUpperCase() == obj2.toUpperCase()) {",
+											"            checker = true;",
+											"        } else {",
+											"            checker = false;",
+											"        }",
+											"    } else if (typeof obj1 === 'object') {",
+											"        // object 형인 경우",
+											"        console.log(\"object 형식은 비교 불가!!!\")",
+											"        checker = false;",
+											"    } else {",
+											"        // 이외는 값 비교 (integer, boolean, float)",
+											"        if(obj1 == obj2) {",
+											"            checker = true;",
+											"        } else {",
+											"            checker = false;",
+											"        }",
+											"    }",
+											"",
+											"    if(!checker) {",
+											"        // false 인 경우 로그 출력 등 필요한 동작 코딩",
+											"    }",
+											"",
+											"    return checker;",
+											"}",
+											"",
+											"// object 전체에서 찾고자하는 key 가 unique 해야한다. 다른 depth 또는 array에 동일한 key name이 존재하면 안됨.",
+											"function findValue(object, findKey) {",
+											"    for (var element in object) {",
+											"        if (!!object[element] && typeof(object[element]) == \"object\") {",
+											"            // null 이 아닌 obejct 인 경우 재귀 순회",
+											"            var returnVal = findValue(object[element], findKey);",
+											"",
+											"            if(!!returnVal) {",
+											"                return returnVal;",
+											"            }",
+											"        } else {",
+											"            // null 또는 primitive type인 경우 확인",
+											"            if(element == findKey) {",
+											"                return object[element];",
+											"            }",
+											"        }",
+											"    }",
+											"}",
+											"",
+											"// autoCreateValue 확인을 위하여 1번째 인자는 putReq 데이터 전체를 들고다닌다.",
+											"function verifyPaymentInfo(sourceRootData, sourceData, targetData, autoCreateValueCheck) {",
+											"    // sourceData : put의 요청데이터",
+											"    // targetData : get의 응답데이터",
+											"    // autoCreatevalueCheck : targetData에서 자동으로 채워지는 데이터에 대한 sourceData의 원본 키값 맵핑",
+											"    for(var target in targetData) {",
+											"        console.log(\"key : \" + target);",
+											"",
+											"        if (!!targetData[target] && typeof(targetData[target]) == \"object\") {",
+											"            // obejct 인 경우 재귀 순회",
+											"            if(!verifyPaymentInfo(sourceRootData, sourceData[target], targetData[target], autoCreateValueCheck)) {",
+											"                return false;",
+											"            }",
+											"        } else {",
+											"            // Json object가 아니면 그냥 검증",
+											"            var autoCheckValueKey = autoCreateValueCheck.get(target);",
+											"",
+											"            if(typeof(autoCheckValueKey) == \"undefined\") {",
+											"                // autoCreateValue가 아니므로 동일 depth의 키값으로 검증",
+											"                if(typeof(sourceData[target]) != \"undefined\") {",
+											"                    // sourceData에 있는 경우만 체크",
+											"                    if(!isSame(targetData[target], sourceData[target])) {",
+											"                        console.log(\"get res[\" + target + \"] : \" + targetData[target]);",
+											"                        console.log(\"put req[\" + target + \"] : \" + sourceData[target]);",
+											"                        return false;",
+											"                    }",
+											"                } else {",
+											"                    // put 요청 시 없는 데이터인 경우 추가생성 데이터이므로 skip",
+											"                }",
+											"            } else {",
+											"                // autoCreateValueCheck 대상이면 sourceData의 원본 키값으로 검증",
+											"                // 이때 sourceData의 원본 키값은 동일한 depth에 있지 않을 수 있다.",
+											"                if(!isSame(targetData[target], findValue(sourceRootData, autoCheckValueKey))) {",
+											"                    console.log(\"get res[\" + target + \"] : \" + targetData[target]);",
+											"                    console.log(\"put req[\" + autoCheckValueKey + \"] : \" + sourceRootData[autoCheckValueKey]);",
+											"                    return false;",
+											"                }",
+											"            }",
+											"        }",
+											"    }",
+											"}",
+											"",
+											"",
+											"pm.test(\"response data is same?\", function () {",
+											"    var putReq = JSON.parse(\"{\\\"a\\\":\\\"kht\\\", \" +",
+											"    \"\\\"c\\\":null, \" +",
+											"    \"\\\"d\\\":\\\"E\\\", \" +",
+											"    \"\\\"f\\\":3, \" +",
+											"    \"\\\"bank\\\":{\" +",
+											"        \"\\\"a\\\":\\\"v\\\"\" +",
+											"        \"}, \" +",
+											"    \"\\\"contact\\\":{\" +",
+											"        \"\\\"name\\\":\\\"kht\\\"\" +",
+											"        \"}\" +",
+											"    \"}\");",
+											"var getRes = JSON.parse(\"{\\\"a\\\":\\\"kht\\\", \" +",
+											"    \"\\\"c\\\":null, \" +",
+											"    \"\\\"d\\\":\\\"e\\\", \" +",
+											"    \"\\\"f\\\":3, \" +",
+											"    \"\\\"bank\\\":{\" +",
+											"        \"\\\"a\\\":\\\"v\\\"\" +",
+											"        \"}, \" +",
+											"    \"\\\"contact\\\":{\" +",
+											"        \"\\\"name\\\":\\\"kht\\\", \" +",
+											"        \"\\\"name2\\\":\\\"kht\\\"\" +",
+											"        \"}\" +",
+											"    \"}\");",
+											"",
+											"    let autoCreateValueCheck = new Map();",
+											"    autoCreateValueCheck.set(\"name2\", \"a\");",
+											"    ",
+											"    verifyPaymentInfo(putReq, putReq, getRes, autoCreateValueCheck);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"request\": \"two\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:25252/api2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "25252",
+									"path": [
+										"api2"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if(!pm.environment.get(\"is_milestone_create\")) {",
+									"    console.log(\"create\");",
+									"",
+									"    const date = new Date(pm.variables.replaceIn('{{$timestamp}}') * 1000);",
+									"    ",
+									"    pm.environment.set(\"millestone_create_date\", date.toLocaleDateString(\"ko-KR\"));",
+									"",
+									"    if()",
+									"",
+									"    // 마일스톤 생성",
+									"    ",
+									"    ",
+									"    console.log(date.toLocaleDateString(\"ko-KR\") + );",
+									"",
+									"    pm.environment.set(\"is_milestone_create\", true);",
+									"} else {",
+									"    console.log(\"created millestone use\");",
+									"}"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "compile time",
+					"item": [
+						{
+							"name": "test1",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// test_rail의 test_suite 정보 가져오기.",
+											"var test1 = {",
+											"    async: false,",
+											"    url: \"http://127.0.0.1:25252/test1\",",
+											"    method: \"GET\"",
+											"};",
+											"",
+											"pm.sendRequest(test1, function(error, response) {",
+											"    var data = JSON.parse(response.json());",
+											"",
+											"    if(200 == response.code) {",
+											"        // consol.log() 찍었을 때 콘솔에 (3) [{...}, {...}, {...}] 와 같이 array로 출력되는 변수레벨에서 .length  사용 가능",
+											"        console.log(data);",
+											"",
+											"        // test suite 중 case_id 가 일치하는 경우에만 해당 case의 id 에 pass/fail 처리하도록 호출",
+											"        for (var i = 0; i < data.length; i++) {",
+											"            var tc = data[i];",
+											"                if(tc.case_id == 2) {",
+											"                    console.log(\"matching!! case_id : \" + tc.case_id + \", id : \" + tc.id);",
+											"                // sendRequest 함수 내부에 정의해야지 url 주소에 response 로 받은 id 값을 변수처리하여 주소 동적 생성가능",
+											"                var test2 = {",
+											"                    async: false,",
+											"                    url: \"http://127.0.0.1:25252/test2/\" + tc.id,",
+											"                    method: \"GET\"",
+											"                };",
+											"",
+											"                pm.sendRequest(test2, function(error, response) {",
+											"                    console.log(\"go!! case_id : \" + tc.case_id + \", id : \" + tc.id);",
+											"                });",
+											"            } else {",
+											"                console.log(\"unmatching!!...\");",
+											"            }",
+											"        }",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:25252/test",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "25252",
+									"path": [
+										"test"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "c02b5f562b438d27ea68adee88ce4f752e17d599",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

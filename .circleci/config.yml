@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - newman/newman-run:
-          collection: ./asdf.json
+          collection: ./yoon.postman_collection.json
 workflows:
   example-workflow:
     jobs:
