@@ -22,6 +22,6 @@ workflows:
   example-workflow:
     jobs:
       - newman-collection-run
-      - example-job
+      - example-job:
           context:
             - slack_context
