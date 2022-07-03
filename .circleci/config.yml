@@ -13,6 +13,9 @@ jobs:
     docker:
       # replace with your preferred image
       - image: cimg/base:stable
+        auth:
+          username: abcd
+          password: $SLACK_PASSWORD   # context
     steps:
       - slack/notify
 workflows:
@@ -20,3 +23,5 @@ workflows:
     jobs:
       - newman-collection-run
       - example-job
+          context:
+            - slack_context
